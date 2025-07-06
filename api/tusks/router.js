@@ -18,7 +18,7 @@ router.get('/task-detail/:taskId', async (req, res) => {
 
 // POST a new task to a list
 router.post('/:listId', async (req, res) => {
-    const { title, status, time, subTasks = [] } = req.body;
+    const { title, status, time, subTasks = [], index } = req.body;
     if (!title || !time)
         return res.status(400).json({ message: 'Title and time are required' });
 
@@ -31,6 +31,7 @@ router.post('/:listId', async (req, res) => {
             status,
             time,
             subTasks,
+            index,
         });
 
         list.tasks.push(newTask._id);
@@ -44,12 +45,12 @@ router.post('/:listId', async (req, res) => {
 
 // PUT update a task
 router.put('/update/:taskId', async (req, res) => {
-    const { title, status, time, subTasks } = req.body;
+    const { title, status, time, subTasks, index } = req.body;
 
     try {
         const Task = await task.findOneAndUpdate(
             { _id: req.params.taskId },
-            { title, status, time, subTasks },
+            { title, status, time, subTasks, index },
             { new: true }
         );
         if (!Task) return res.status(404).json({ message: 'Task not found' });

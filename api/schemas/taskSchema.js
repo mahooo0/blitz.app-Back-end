@@ -10,6 +10,7 @@ const taskSchema = new mongoose.Schema({
     },
     time: { type: String, match: /^\d{2}\.\d{2}\.\d{2}$/, required: true },
     subTasks: [subtaskSchema],
+    index: { type: Number, default: 0, required: false },
 });
 const task = mongoose.model('task', taskSchema);
 module.exports = { task, taskSchema };
